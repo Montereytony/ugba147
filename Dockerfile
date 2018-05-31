@@ -18,19 +18,20 @@ RUN apt-get update -y  && apt-get dist-upgrade -y
 RUN apt install build-essential libssl-dev libffi-dev python-dev  lib32ncurses5-dev -y
 # gtar was used by pandoc so we need this
 RUN ln -s /bin/tar /bin/gtar
+
+
+RUN apt-get remove r-base-core -y && apt-get install r-base-core -y
+RUN conda clean -tipsy
+#RUN conda update -c r r-base
+
+
 RUN /usr/bin/apt-get install unzip
 RUN /usr/bin/wget https://github.com/jgm/pandoc/releases/download/2.1/pandoc-2.1-1-amd64.deb
 RUN /usr/bin/dpkg -i pandoc-2.1-1-amd64.deb
 RUN rm pandoc-2.1-1-amd64.deb
 
-#
-# Upgrade R 3.4.2 now
-#
-#RUN pip uninstall ipykernel
-#RUN pip install ipykernel
-RUN conda clean -tipsy
-RUN conda update -c r r-base
-RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/pbdZMQ_0.3-2.tar.gz',repos=NULL)"
+RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/pbdZMQ_0.3-3.tar.gz',repos=NULL)"
+RUN conda update -n base conda
 RUN conda install \
         gcc_linux-64 \
         gfortran_linux-64 \
@@ -101,16 +102,14 @@ RUN jupyter nbextension install --py widgetsnbextension --sys-prefix
 RUN jupyter nbextension enable  --py widgetsnbextension --sys-prefix
 
 RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/openxlsx_4.0.17.tar.gz',repos=NULL)"
-RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/rio_0.5.9.tar.gz',repos=NULL)"
+RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/rio_0.5.10.tar.gz',repos=NULL)"
 
-RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/survey_3.33.tar.gz',repo=NULL)"
+RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/survey_3.33-2.tar.gz',repo=NULL)"
 RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/coda_0.19-1.tar.gz',repos=NULL)"
 RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/mvtnorm_1.0-7.tar.gz',repos=NULL)"
 #RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/sfsmisc_1.1-1.tar.gz',repos=NULL)"
 RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/sfsmisc_1.1-2.tar.gz',repos=NULL)"
 RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/polycor_0.7-9.tar.gz',repos=NULL)"
-#RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/CDM_6.0-101.tar.gz',repos=NULL)"
-#RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/TAM_2.8-21.tar.gz',repos=NULL)"
 RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/CDM_6.1-10.tar.gz',repos=NULL)"
 RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/TAM_2.9-35.tar.gz',repos=NULL)"
 RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/mitools_2.3.tar.gz',repos=NULL)"
@@ -121,15 +120,15 @@ RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/mvtnorm
 
 RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/GPArotation_2014.11-1.tar.gz',repo=NULL)"
 RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/permute_0.9-4.tar.gz',repo=NULL)"
-RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/vegan_2.4-6.tar.gz',repo=NULL)"
+RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/vegan_2.5-1.tar.gz',repo=NULL)"
 RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/pbivnorm_0.6.0.tar.gz',repo=NULL)"
 
 RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/numDeriv_2016.8-1.tar.gz',repo=NULL)"
 RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/Archive/mirt/mirt_1.20.1.tar.gz',repo=NULL)"
 RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/lavaan_0.5-23.1097.tar.gz',repo=NULL)"
 RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/lavaan.survey_1.1.3.1.tar.gz',repo=NULL)"
-RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/sirt_2.4-20.tar.gz',repos=NULL)"
-RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/miceadds_2.9-15.tar.gz',repos=NULL)"
+RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/sirt_2.6-9.tar.gz',repos=NULL)"
+RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/miceadds_2.10-14.tar.gz',repos=NULL)"
 RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/RcppRoll_0.2.2.tar.gz',repos=NULL)"
 RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/DEoptimR_1.0-8.tar.gz',repos=NULL)"
 RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/robustbase_0.92-8.tar.gz',repos=NULL)"
@@ -138,14 +137,15 @@ RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/kernlab
 RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/CVST_0.2-1.tar.gz',repos=NULL)"
 RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/DRR_0.0.3.tar.gz',repos=NULL)"
 RUN Rscript -e "install.packages('https://cran.rstudio.com/src/contrib/SQUAREM_2017.10-1.tar.gz',repos=NULL)"
-RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/lava_1.6.tar.gz',repos=NULL)"
-RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/prodlim_1.6.1.tar.gz',repos=NULL)"
-RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/ddalpha_1.3.1.1.tar.gz',repos=NULL)"
+RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/lava_1.6.1.tar.gz',repos=NULL)"
+RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/prodlim_2018.04.18.tar.gz',repos=NULL)"
+RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/ddalpha_1.3.3.tar.gz',repos=NULL)"
 RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/dimRed_0.1.0.tar.gz',repos=NULL)"
 RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/ipred_0.9-6.tar.gz',repos=NULL)"
 RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/recipes_0.1.2.tar.gz',repos=NULL)"
-RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/withr_2.1.1.tar.gz',repos=NULL)"
-RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/caret_6.0-78.tar.gz',repos=NULL)"
+RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/withr_2.1.2.tar.gz',repos=NULL)"
+RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/caret_6.0-79.tar.gz',repos=NULL)"
+RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/caTools_1.17.1.tar.gz',repos=NULL)"
 RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/neuralnet_1.33.tar.gz',repos=NULL)"
 RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/irlba_2.3.2.tar.gz',repos=NULL)"
 RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/kknn_1.3.1.tar.gz',repos=NULL)"
@@ -156,7 +156,7 @@ RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/ROCR_1.
 RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/MLmetrics_1.1.1.tar.gz',repos=NULL)"
 RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/MLmetrics_1.1.1.tar.gz',repos=NULL)"
 RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/dummies_1.5.6.tar.gz',repos=NULL)"
-RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/slam_0.1-42.tar.gz',repos=NULL)"
+RUN Rscript -e "install.packages('http://cran.us.r-project.org/src/contrib/Archive/slam/slam_0.1-37.tar.gz',repos=NULL)"
 RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/NLP_0.1-11.tar.gz',repos=NULL)"
 RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/tm_0.7-3.tar.gz',repos=NULL)"
 
@@ -190,6 +190,19 @@ RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/RWekaja
 #RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/RWekajars_3.9.2-1.tar.gz',repos=NULL)"
 RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/RWeka_0.4-37.tar.gz',repos=NULL)"
 RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/rpart.plot_2.1.2.tar.gz',repos=NULL)"
+
+
+RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/zip_1.0.0.tar.gz',repos=NULL)"
+#RUN Rscript -e "install.packages('http://cran.us.r-project.org/src/contrib/Archive/R.methodsS3/R.methodsS3_1.7.1.tar.gz',repos=NULL)"
+RUN Rscript -e "install.packages('http://cran.us.r-project.org/src/contrib/R.methodsS3_1.7.1.tar.gz',repos=NULL)"
+RUN Rscript -e "install.packages('http://cran.us.r-project.org/src/contrib/Archive/R.oo/R.oo_1.21.0.tar.gz',repos=NULL)"
+RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/R.utils_2.6.0.tar.gz',repos=NULL)"
+RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/officer_0.3.0.tar.gz',repos=NULL)"
+RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/rpart.plot_2.1.2.tar.gz',repos=NULL)"
+RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/praise_1.0.0.tar.gz',repos=NULL)"
+RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/testthat_2.0.0.tar.gz',repos=NULL)"
+RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/mockery_0.4.1.tar.gz',repos=NULL)"
+RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/githubinstall_0.2.2.tar.gz',repos=NULL)"
 #
 # This should allow users to turn off extension if they do not want them.
 #
