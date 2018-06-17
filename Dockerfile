@@ -106,7 +106,7 @@ RUN apt-get update && \
 
 RUN export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$JAVA_LD_LIBRARY_PATH
 RUN R CMD javareconf
-RUN Rscript -e 'install.packages(c("RWekajars","rpart.plot","gbm","zip","R.methodsS3","R.oo","R.utils","officer","praise","testthat","mockery","githubinstall"),repos = "https://cloud.r-project.org",dependencies = TRUE)'
+RUN Rscript -e 'install.packages(c("RWekajars","rpart.plot","gbm","zip","R.methodsS3","R.oo","R.utils","officer","praise","testthat","mockery","githubinstall","ggplot2"),repos = "https://cloud.r-project.org",dependencies = TRUE)'
 
 #
 # This should allow users to turn off extension if they do not want them.
