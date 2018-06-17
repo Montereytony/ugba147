@@ -12,24 +12,25 @@ FROM jupyter/datascience-notebook:latest
 USER root
 ENV DEBIAN_FRONTEND noninteractive
 # Install.
-#RUN \
+
 #  sed -i 's/# \(.*multiverse$\)/\1/g' /etc/apt/sources.list && \
-#  apt-get update && \
-#  apt-get -y upgrade && \
-#  apt-get install -y build-essential  && \
-# apt-get install -y software-properties-common && \
-# apt-get install -y apt-utils && \
-#  apt-get install -y byobu curl git htop man unzip vim wget && \
-#  rm -rf /var/lib/apt/lists/*
+RUN \
+  ln -s /bin/tar /bin/gtar  && \
+  apt-get update && apt-get -y  --no-install-recommends apt-utils && \
+  apt-get -y dist-upgrade  && apt-get -y upgrade && \
+  apt-get install -y build-essential   libssl-dev libffi-dev python-dev  lib32ncurses5-dev  && \
+  apt-get install -y software-properties-common && \
+  apt-get install -y apt-utils && \
+  apt-get install -y byobu curl git htop man unzip vim wget && \
+  rm -rf /var/lib/apt/lists/*
 
 # Let's do updates first and install some needed libraries and utilites
-RUN apt-get update && apt-get install -y --no-install-recommends apt-utils
-RUN apt-get update -y  && apt-get dist-upgrade -y
-RUN apt install build-essential libssl-dev libffi-dev python-dev  lib32ncurses5-dev -y
+#RUN apt-get update && apt-get install -y --no-install-recommends apt-utils
+#RUN apt-get update -y  && apt-get dist-upgrade -y
+#RUN apt install build-essential libssl-dev libffi-dev python-dev  lib32ncurses5-dev -y
 # gtar was used by pandoc so we need this
-RUN ln -s /bin/tar /bin/gtar
-RUN /usr/bin/apt-get install unzip
-RUN apt-get update -y
+#RUN /usr/bin/apt-get install unzip
+#RUN apt-get update -y
 RUN apt-get remove r-base-core -y && apt-get install r-base-core -y
 RUN /usr/bin/wget https://github.com/jgm/pandoc/releases/download/2.1/pandoc-2.1-1-amd64.deb
 RUN /usr/bin/dpkg -i pandoc-2.1-1-amd64.deb
