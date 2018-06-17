@@ -12,17 +12,10 @@ FROM jupyter/datascience-notebook:latest
 USER root
 ENV DEBIAN_FRONTEND noninteractive
 # Install.
-
 #  sed -i 's/# \(.*multiverse$\)/\1/g' /etc/apt/sources.list && \
-RUN \
-  ln -s /bin/tar /bin/gtar  && \
-  apt-get update && apt-get -y  --no-install-recommends apt-utils && \
-  apt-get -y dist-upgrade  && apt-get -y upgrade && \
-  apt-get install -y build-essential   libssl-dev libffi-dev python-dev  lib32ncurses5-dev  && \
-  apt-get install -y software-properties-common && \
-  apt-get install -y apt-utils && \
-  apt-get install -y byobu curl git htop man unzip vim wget && \
-  rm -rf /var/lib/apt/lists/*
+RUN ln -s /bin/tar /bin/gtar  &&  apt-get -y update  && apt-get -y dist-upgrade  && apt-get -y upgrade #&& \ 
+RUN apt-get install -y software-properties-common # && \
+RUN apt-get install -y byobu curl git htop man unzip vim wget 
 
 # Let's do updates first and install some needed libraries and utilites
 #RUN apt-get update && apt-get install -y --no-install-recommends apt-utils
@@ -31,11 +24,11 @@ RUN \
 # gtar was used by pandoc so we need this
 #RUN /usr/bin/apt-get install unzip
 #RUN apt-get update -y
-RUN apt-get remove r-base-core -y && apt-get install r-base-core -y
+#RUN apt-get remove r-base-core -y && apt-get install r-base-core -y
 RUN /usr/bin/wget https://github.com/jgm/pandoc/releases/download/2.1/pandoc-2.1-1-amd64.deb
 RUN /usr/bin/dpkg -i pandoc-2.1-1-amd64.deb
 RUN rm pandoc-2.1-1-amd64.deb
-RUN Rscript -e 'devtools::install_cran(c("pbdZQM",repos = "http://cran.us.r-project.org"))'
+#RUN Rscript -e 'devtools::install_cran(c("pbdZQM",repos = "http://cran.us.r-project.org"))'
 
 #
 # Upgrade R 3.4.2 now
@@ -87,7 +80,7 @@ RUN conda install \
     	python-utils
 
 
-RUN Rscript -e 'install.packages(c("r-igraph","wordcould","DRR", "webshot","mclust","pracma","ggdendro","reshape","prettyunits","progress","GGally","multiwayvcov","wordcloud2","openxlsx","rio","survey","coda","mvtnorm","sfsmisc","polucor","CDM","TAM","mitools","mice","GPArotation","permute","vegan","pbivnorm","numDeriv","Archive","lavaan","lavaan.survey","sirt","miceadds","RcppRoll","DEoptimR","robustbase","gower","kernlab","CVST","DRR","SQUAREM","lava","prodlim","ddalpha","dimRed","ipred","recipes","withr","caret","neuralnet","irlba","kknn","gtools","gdata","caTools","gplots","ROCR","MLmetrics","dummies","slam","NLP","tm","clipr"),repos = "https://cloud.r-project.org",dependencies = TRUE)'
+RUN Rscript -e 'install.packages(c("svglite","pbdZQM","r-igraph","wordcould","DRR", "webshot","mclust","pracma","ggdendro","reshape","prettyunits","progress","GGally","multiwayvcov","wordcloud2","openxlsx","rio","survey","coda","mvtnorm","sfsmisc","polucor","CDM","TAM","mitools","mice","GPArotation","permute","vegan","pbivnorm","numDeriv","Archive","lavaan","lavaan.survey","sirt","miceadds","RcppRoll","DEoptimR","robustbase","gower","kernlab","CVST","DRR","SQUAREM","lava","prodlim","ddalpha","dimRed","ipred","recipes","withr","caret","neuralnet","irlba","kknn","gtools","gdata","caTools","gplots","ROCR","MLmetrics","dummies","slam","NLP","tm","clipr"),repos = "https://cloud.r-project.org",dependencies = TRUE)'
 
 # NB extensions is not working when running it in jupyterhub kubernetes so adding this next line
 RUN conda install -c conda-forge jupyter_contrib_nbextensions
