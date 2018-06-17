@@ -43,9 +43,9 @@ RUN Rscript -e 'devtools::install_cran(c("pbdZQM",repos = "http://cran.us.r-proj
 #RUN pip install ipykernel
 #RUN conda clean -tipsy
 #RUN Rscript -e "install.packages('https://cran.r-project.org/src/contrib/pbdZMQ_0.3-2.tar.gz',repos=NULL)"
-#gcc_linux-64 \
-#        gfortran_linux-64 \
 RUN conda install \
+        gcc_linux-64 \
+        gfortran_linux-64 \
         r-essentials \
         r-htmlwidgets \
         r-gridExtra \
