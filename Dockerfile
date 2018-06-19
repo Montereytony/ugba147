@@ -18,11 +18,10 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends ap
     add-apt-repository ppa:webupd8team/java -y && \
     echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections && \
     apt-get install -y oracle-java8-installer && \
-    apt-get clean 
-
-RUN wget https://github.com/jgm/pandoc/releases/download/2.1/pandoc-2.1-1-amd64.deb && \
+    wget https://github.com/jgm/pandoc/releases/download/2.1/pandoc-2.1-1-amd64.deb && \
     /usr/bin/dpkg -i pandoc-2.1-1-amd64.deb && \
     rm pandoc-2.1-1-amd64.deb && \
+    apt-get clean 
     apt -y autoremove
 
 RUN Rscript -e 'install.packages(c("https://cran.r-project.org/src/contrib/ggplot2_2.2.1.tar.gz"),dependencies = TRUE)'
@@ -72,7 +71,6 @@ RUN conda install \
     	python-utils \
         proj4
 
-#RUN Rscript -e 'install.packages(c("https://cran.r-project.org/src/contrib/gsl_1.9-10.3.tar.gz"),dependencies = TRUE)'
 RUN Rscript -e 'install.packages(c("https://cran.r-project.org/src/contrib/Archive/truncnorm/truncnorm_1.0.0.tar.gz"),dependencies = TRUE)'
 RUN Rscript -e 'install.packages(c("https://cran.r-project.org/src/contrib/Rsolnp_1.16.tar.gz"),dependencies = TRUE)'
 RUN Rscript -e 'install.packages(c("Rsolnp"),repos = "https://cloud.r-project.org",dependencies = TRUE)'
