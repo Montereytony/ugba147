@@ -6,7 +6,7 @@
 # git status
 # git commit -m "comments Ubuntu and R to 3.4.2 "
 # git push
-#
+
 
 FROM jupyter/datascience-notebook:latest
 USER root
