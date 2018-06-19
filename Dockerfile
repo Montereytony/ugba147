@@ -13,7 +13,8 @@ USER root
 RUN ln -s /bin/tar /bin/gtar   && apt-get -y update && apt-get -y upgrade
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends apt-utils \
     software-properties-common byobu curl git htop man unzip vim wget libcairo2-dev libxt-dev  \
-    libjpeg-dev libpango1.0-dev libgif-dev build-essential g++ pandoc automake pkg-config libtool   software-properties-common &&\
+    libjpeg-dev libpango1.0-dev libgif-dev build-essential g++ pandoc automake pkg-config \
+    libtool software-properties-common gsl-bin libgsl-dev  &&\
     add-apt-repository ppa:webupd8team/java -y && \
     echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections && \
     apt-get install -y oracle-java8-installer && \
@@ -71,8 +72,11 @@ RUN conda install \
     	python-utils \
         proj4
 
-RUN Rscript -e 'install.packages(c("truncnorm","checkmate", "latticeExtra", "acepack", "htmlTable", "viridis", "brew", "desc", "commonmark", "Hmisc", "roxygen2", "DT", "mockery", "praise", "rex", "fontBitstreamVera", "fontLiberation", "testthat", "covr", "fontquiver", "svglite"),repos = "https://cloud.r-project.org",dependencies = TRUE)'
-RUN Rscript -e 'install.packages(c("pbdZQM","r-igraph","wordcould","DRR", "webshot","mclust","pracma","ggdendro","reshape","prettyunits","progress","GGally","multiwayvcov","wordcloud2","openxlsx","rio","survey","coda","mvtnorm","sfsmisc","polucor","CDM","TAM","mitools","mice","GPArotation","permute","vegan","pbivnorm","numDeriv","Archive","lavaan","lavaan.survey","sirt","miceadds","RcppRoll","DEoptimR","robustbase","gower","kernlab","CVST","DRR","SQUAREM","lava","prodlim","ddalpha","dimRed","ipred","recipes","withr","caret","neuralnet","irlba","kknn","gtools","gdata","caTools","gplots","ROCR","MLmetrics","dummies","slam","NLP","tm","clipr","ggalt"),repos = "https://cloud.r-project.org",dependencies = TRUE)'
+#RUN Rscript -e 'install.packages(c("https://cran.r-project.org/src/contrib/gsl_1.9-10.3.tar.gz"),dependencies = TRUE)'
+RUN Rscript -e 'install.packages(c("https://cran.r-project.org/src/contrib/Archive/truncnorm/truncnorm_1.0.0.tar.gz"),dependencies = TRUE)'
+RUN Rscript -e 'install.packages(c("https://cran.r-project.org/src/contrib/Rsolnp_1.16.tar.gz"),dependencies = TRUE)'
+RUN Rscript -e 'install.packages(c("Rsolnp"),repos = "https://cloud.r-project.org",dependencies = TRUE)'
+RUN Rscript -e 'install.packages(c("Rsolnp","LSAmitR", "Rgraphviz", "graph", "rsample", "proxy", "slam", "Rcampdf", "tm.lexicon.GeneralInquirer", "VGAM", "impute", "truncnorm","truncnorm","checkmate", "latticeExtra", "acepack", "htmlTable", "viridis", "brew", "desc", "commonmark", "Hmisc", "roxygen2", "DT", "mockery", "praise", "rex", "fontBitstreamVera", "fontLiberation", "testthat", "covr", "fontquiver", "svglite", "pbdZQM","r-igraph","wordcould","DRR", "webshot","mclust","pracma","ggdendro","reshape","prettyunits","progress","GGally","multiwayvcov","wordcloud2","openxlsx","rio","survey","coda","mvtnorm","sfsmisc","polucor","CDM","TAM","mitools","mice","GPArotation","permute","vegan","pbivnorm","numDeriv","Archive","lavaan","lavaan.survey","sirt","miceadds","RcppRoll","DEoptimR","robustbase","gower","kernlab","CVST","DRR","SQUAREM","lava","prodlim","ddalpha","dimRed","ipred","recipes","withr","caret","neuralnet","irlba","kknn","gtools","gdata","caTools","gplots","ROCR","MLmetrics","dummies","slam","NLP","tm","clipr","ggalt","truncnorm"),repos = "https://cloud.r-project.org",dependencies = TRUE)'
 
 # NB extensions is not working when running it in jupyterhub kubernetes so adding this next line
 RUN conda install -c conda-forge jupyter_contrib_nbextensions
