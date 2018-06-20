@@ -14,8 +14,8 @@ USER root
 RUN ln -s /bin/tar /bin/gtar   && apt-get -y update && apt-get -y upgrade
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends apt-utils \
     software-properties-common byobu curl git htop man unzip vim wget libcairo2-dev libxt-dev  \
-    libjpeg-dev libpango1.0-dev libgif-dev build-essential g++ pandoc automake pkg-config \
-    libtool software-properties-common gsl-bin libgsl-dev  &&\
+    libjpeg-dev libpango1.0-dev libgif-dev build-essential g++ pandoc automake pkg-config  \
+    libtool software-properties-common gsl-bin libgsl-dev  unixodbc   r-cran-rmpi &&\
     add-apt-repository ppa:webupd8team/java -y && \
     echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections && \
     apt-get install -y oracle-java8-installer && \
@@ -25,10 +25,9 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends ap
     apt -y autoremove &&\
     apt-get clean  
 
-RUN Rscript -e 'install.packages(c("https://cran.r-project.org/src/contrib/ggplot2_2.2.1.tar.gz"),dependencies = TRUE)'
-RUN Rscript -e 'install.packages(c("https://cran.r-project.org/src/contrib/Cairo_1.5-9.tar.gz"),dependencies = TRUE)'
-RUN Rscript -e 'install.packages(c("https://cran.r-project.org/src/contrib/gdtools_0.1.7.tar.gz"),dependencies = TRUE)'
 
+RUN Rscript -e 'install.packages(c("RcppEigen", "StanHeaders", "rpf"),repos = "https://cloud.r-project.org",dependencies = TRUE)'
+RUN Rscript -e 'install.packages(c("https://cran.r-project.org/src/contrib/OpenMx_2.9.9.tar.gz"),dependencies = TRUE)'
 RUN conda install \
         gcc_linux-64 \
         gfortran_linux-64 \
@@ -72,11 +71,11 @@ RUN conda install \
     	python-utils \
         proj4
 
+RUN Rscript -e 'install.packages(c("https://cran.r-project.org/src/contrib/ggplot2_2.2.1.tar.gz"),dependencies = TRUE)'
+RUN Rscript -e 'install.packages(c("https://cran.r-project.org/src/contrib/Cairo_1.5-9.tar.gz"),dependencies = TRUE)'
+RUN Rscript -e 'install.packages(c("https://cran.r-project.org/src/contrib/gdtools_0.1.7.tar.gz"),dependencies = TRUE)'
 RUN Rscript -e 'install.packages(c("https://cran.r-project.org/src/contrib/Archive/truncnorm/truncnorm_1.0.0.tar.gz"),dependencies = TRUE)'
-#RUN Rscript -e 'install.packages(c("https://cran.r-project.org/src/contrib/Rsolnp_1.16.tar.gz"),dependencies = TRUE)'
-#RUN Rscript -e 'install.packages(c("Rsolnp"),repos = "https://cloud.r-project.org",dependencies = TRUE)'
-#RUN Rscript -e 'install.packages(c("OpenMx"),repos = "https://cloud.r-project.org",dependencies = TRUE)'
-RUN Rscript -e 'install.packages(c("Rsolnp","OpenMx","LSAmitR", "Rgraphviz", "graph", "rsample", "proxy", "slam", "Rcampdf", "tm.lexicon.GeneralInquirer", "VGAM", "impute", "truncnorm","truncnorm","checkmate", "latticeExtra", "acepack", "htmlTable", "viridis", "brew", "desc", "commonmark", "Hmisc", "roxygen2", "DT", "mockery", "praise", "rex", "fontBitstreamVera", "fontLiberation", "testthat", "covr", "fontquiver", "svglite", "pbdZQM","r-igraph","wordcould","DRR", "webshot","mclust","pracma","ggdendro","reshape","prettyunits","progress","GGally","multiwayvcov","wordcloud2","openxlsx","rio","survey","coda","mvtnorm","sfsmisc","polucor","CDM","TAM","mitools","mice","GPArotation","permute","vegan","pbivnorm","numDeriv","Archive","lavaan","lavaan.survey","sirt","miceadds","RcppRoll","DEoptimR","robustbase","gower","kernlab","CVST","DRR","SQUAREM","lava","prodlim","ddalpha","dimRed","ipred","recipes","withr","caret","neuralnet","irlba","kknn","gtools","gdata","caTools","gplots","ROCR","MLmetrics","dummies","slam","NLP","tm","clipr","ggalt","truncnorm"),repos = "https://cloud.r-project.org",dependencies = TRUE)'
+RUN Rscript -e 'install.packages(c("pdftools","Rsolnp","LSAmitR", "Rgraphviz", "graph", "rsample", "proxy", "slam", "Rcampdf", "tm.lexicon.GeneralInquirer", "VGAM", "impute", "truncnorm","truncnorm","checkmate", "latticeExtra", "acepack", "htmlTable", "viridis", "brew", "desc", "commonmark", "Hmisc", "roxygen2", "DT", "mockery", "praise", "rex", "fontBitstreamVera", "fontLiberation", "testthat", "covr", "fontquiver", "svglite", "pbdZQM","r-igraph","wordcould","DRR", "webshot","mclust","pracma","ggdendro","reshape","prettyunits","progress","GGally","multiwayvcov","wordcloud2","openxlsx","rio","survey","coda","mvtnorm","sfsmisc","polucor","CDM","TAM","mitools","mice","GPArotation","permute","vegan","pbivnorm","numDeriv","Archive","lavaan","lavaan.survey","sirt","miceadds","RcppRoll","DEoptimR","robustbase","gower","kernlab","CVST","DRR","SQUAREM","lava","prodlim","ddalpha","dimRed","ipred","recipes","withr","caret","neuralnet","irlba","kknn","gtools","gdata","caTools","gplots","ROCR","MLmetrics","dummies","slam","NLP","tm","clipr","ggalt","truncnorm"),repos = "https://cloud.r-project.org",dependencies = TRUE)'
 
 # NB extensions is not working when running it in jupyterhub kubernetes so adding this next line
 RUN conda install -c conda-forge jupyter_contrib_nbextensions
